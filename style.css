@@ -1,0 +1,270 @@
+:root {
+    --bg-color: #030305;
+    --primary: #00ffcc;
+    --secondary: #ff0055;
+    --text-main: #e0e0e0;
+    --text-muted: #667788;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none !important; /* Forces custom cursor globally */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow: hidden; /* Prevents scrollbars for a clean app feel */
+    height: 100vh;
+}
+
+/* Canvas & Overlays */
+#networkCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 50%,
+        rgba(0,0,0,0.2) 50%,
+        rgba(0,0,0,0.2)
+    );
+    background-size: 100% 4px;
+    z-index: 9000;
+    pointer-events: none;
+}
+
+/* Custom Cursor */
+.cursor-dot {
+    width: 4px;
+    height: 4px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    pointer-events: none;
+    box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(0, 255, 204, 0.4);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    z-index: 9998;
+    pointer-events: none;
+    transition: width 0.3s, height 0.3s, background-color 0.3s;
+}
+
+.cursor-outline.hover-active {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 255, 204, 0.1);
+    border-color: var(--primary);
+}
+
+/* Layout */
+.container {
+    position: relative;
+    z-index: 10;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 1.5rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary);
+    position: relative;
+}
+
+nav {
+    display: flex;
+    gap: 2rem;
+}
+
+nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--primary);
+}
+
+/* Hero Section */
+.hero {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.status-bar {
+    color: var(--secondary);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.blinking {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Glitch Title Animation */
+.glitch-title {
+    font-size: 5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    position: relative;
+    color: white;
+    margin-bottom: 1rem;
+    letter-spacing: -2px;
+    display: inline-block;
+}
+
+.glitch-title::before,
+.glitch-title::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color); /* Hides the original text beneath the glitch */
+}
+
+.glitch-title::before {
+    left: 3px;
+    text-shadow: -2px 0 var(--secondary);
+    clip: rect(44px, 9999px, 56px, 0);
+    animation: glitch-anim 10s infinite linear alternate-reverse;
+}
+
+.glitch-title::after {
+    left: -3px;
+    text-shadow: -2px 0 var(--primary), 2px 2px var(--secondary);
+    clip: rect(44px, 9999px, 56px, 0);
+    animation: glitch-anim2 10.5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% { clip: rect(11px, 9999px, 83px, 0); }
+    20% { clip: rect(65px, 9999px, 91px, 0); }
+    40% { clip: rect(32px, 9999px, 12px, 0); }
+    60% { clip: rect(87px, 9999px, 43px, 0); }
+    80% { clip: rect(2px, 9999px, 76px, 0); }
+    100% { clip: rect(53px, 9999px, 22px, 0); }
+}
+
+@keyframes glitch-anim2 {
+    0% { clip: rect(65px, 9999px, 100px, 0); }
+    20% { clip: rect(12px, 9999px, 54px, 0); }
+    40% { clip: rect(89px, 9999px, 23px, 0); }
+    60% { clip: rect(14px, 9999px, 78px, 0); }
+    80% { clip: rect(45px, 9999px, 12px, 0); }
+    100% { clip: rect(98px, 9999px, 44px, 0); }
+}}
+
+.role {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 2rem;
+    letter-spacing: 4px;
+}
+
+.divider {
+    color: var(--text-muted);
+    margin: 0 10px;
+}
+
+.bio {
+    max-width: 600px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    border-left: 2px solid var(--secondary);
+    padding-left: 1rem;
+}
+
+/* Buttons */
+.action-grid {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.btn {
+    padding: 1rem 2rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.btn.primary {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.btn.primary:hover {
+    background: var(--primary);
+    color: var(--bg-color);
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+}
+
+.btn.secondary {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--text-muted);
+}
+
+.btn.secondary:hover {
+    color: white;
+    border-color: white;
+}
