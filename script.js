@@ -11,7 +11,7 @@ const CONFIG = {
 
     githubUsername: "kedyy07",
 
-    email: "your-email@example.com",
+    email: "kedarnathpanda.07@gmail.com",
 
     leetcode: {
         solved: "251+",
